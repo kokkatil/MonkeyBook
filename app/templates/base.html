@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <title>MonkeyBook{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+    {% endblock %}
+  </head>
+  <body>
+    {% block navbar %}
+    <div class="navbar navbar-static-top navbar-inverse">
+      <div class="container">
+        <button class="navbar-toggle">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">MonkeyBook</a>
+        <div class="nav-collapse">
+          {% block navbar_right %}
+          <ul class="nav navbar-nav pull-right">
+             {% if g.user.is_authenticated() %}
+               <li><a href="{{ url_for('user', nickname = g.user.nickname) }}">Your Profile</a></li>
+               <li><a href="{{ url_for('logout') }}">Logout</a></li>
+               <li><a href="{{ url_for('delete') }}">Delete Profile</a></li>
+
+             {% else %}
+               <li><a href="/login">Login</a></li>
+             {% endif %}
+          </ul>
+          {% endblock %}
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    {% endblock %}
+    <div class="container page">
+        <div class="content">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <hr>
+        {% block footer %}
+        <footer class="footer">
+            <p>&copy; MonkeyBook</p>
+        </footer>
+        {% endblock %}
+    </div>
+    {% block js_footer %}
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    {% endblock %}
+  </body>
+</html>

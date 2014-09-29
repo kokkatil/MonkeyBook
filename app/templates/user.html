@@ -1,0 +1,60 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Profile</h2>
+
+<div class="row">
+  <div id="avatar" class="col-xs-1 col-sm-3">
+    <img src="{{user.avatar(128)}}">
+  </div>
+  <div id="user-info" class="col-xs-2 col-sm-8">
+    <h1>User: {{user.nickname}}</h1>
+    <p>Email: {{user.email}}</p>
+    <p>Age: {{user.age}}</p> 
+    {% if user.about_me %} <p>{{user.about_me}}</p> {% endif %}
+    {% if user.last_seen %} <p>Last seen on: <i>{{user.last_seen}}</i></p> {% endif %}
+  
+
+    <p>{{ user.followers.count() }} followers |
+    {% if user.id == g.user.id %}
+      <a href="{{ url_for('edit') }}">Edit your profile</a>
+    {% elif not g.user.is_following(user) %}
+      <a href="{{ url_for('follow', nickname=user.nickname) }}">Follow</a>
+    {% else %}
+       <a href="{{ url_for('unfollow', nickname=user.nickname) }}">Unfollow</a>
+    {% endif %}
+    </p>
+  </div>
+</div>
+
+<br/>
+
+<h3>Friends</h3>
+<div class="row-fluid">
+{% for friend in friends %}
+    <div class="row"> <a href="{{ url_for ('user', nickname='foo') }}">{{friend.nickname}}</a>
+      {% if bestfriend == friend %}
+      BESTIE!!!
+      {% else %}
+      <a href="{{ url_for('newbestie', nickname = friend.nickname) }}">Make this user your best friend</a>
+      {% endif %}
+    </div>
+{% endfor %}
+</div>
+
+<h3>All users</h3>
+<div class="row-fluid">
+{% for user in users %}
+    <div class="row"> <a href="{{ url_for ('user', nickname=user.nickname) }}">{{user.nickname}}</a>
+    </div>
+{% endfor %}
+</div>
+
+
+<h3>Posts</h3>
+<div class="row-fluid">
+{% if posts.has_prev %}<a href="{{ url_for('user', nickname=user.nickname, page=posts.prev_num) }}"><< Newer posts</a>{% else %}<< Newer posts{% endif %} |
+{% if posts.has_next %}<a href="{{ url_for('user', nickname=user.nickname, page=posts.next_num) }}">Older posts >></a>{% else %}Older posts >>{% endif %}
+</div>
+{% endblock %}
