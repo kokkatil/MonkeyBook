@@ -9,5 +9,6 @@ flask-whooshalchemy==0.55a
 flask-wtf==0.8.4
 pytz==2013b
 flask-babel==0.8
+gunicorn==19.1.1
 flup
 flask-bootstrap
