@@ -8,7 +8,7 @@ OPENID_PROVIDERS = [
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-if os.environ.get("HEROKU") == 1:
+if os.environ.get("HEROKU") is not None:
     print "nothing here yet"
 else: 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
