@@ -9,10 +9,11 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 if os.environ.get("HEROKU") is not None:
-    print "nothing here yet"
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 else: 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 # Whoosh does not work on Heroku
 WHOOSH_ENABLED = os.environ.get('HEROKU') is None
