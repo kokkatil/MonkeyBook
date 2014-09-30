@@ -8,8 +8,14 @@ OPENID_PROVIDERS = [
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+if os.environ.get("HEROKU") == 1:
+    print "nothing here yet"
+else: 
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+
+# Whoosh does not work on Heroku
+WHOOSH_ENABLED = os.environ.get('HEROKU') is None
 
 # pagination
 POSTS_PER_PAGE = 3
